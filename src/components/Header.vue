@@ -1,5 +1,5 @@
 <template>
-    <header class="flex justify-between items-center mb-5">
+    <header class="flex justify-between items-center mb-5 text-3xl">
         <h1>{{ title }}</h1>
         <Button text="Add Task" color="green"/>
     </header>
