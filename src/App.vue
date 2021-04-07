@@ -1,6 +1,7 @@
 <template>
 <div class="max-w-lg m-7 overflow-auto min-h-full border-2 border-opacity-100 border-blue-300 p-8 rounded-md">
   <Header title="Task Tracker"/>
+  <AddTask />
   <Tasks @delete-task="deleteTask" :tasks="tasks"/>
 </div>
 
@@ -9,6 +10,7 @@
 <script>
 import Header from './components/Header'
 import Tasks from './components/Tasks'
+import AddTask from './components/AddTask'
 import firebase from './firebaseConfig'
 
 const db = firebase.firestore();
@@ -18,6 +20,7 @@ export default {
   components: {
     Header,
     Tasks,
+    AddTask,
   },
   methods: {
     /*deleteTask(id){
@@ -55,7 +58,6 @@ export default {
               id: doc.id,
               text: doc.data().text,
               day: doc.data().day,
-              reminder: doc.data().reminder,
             });
             console.log(doc.id, " => ", doc.data());
           });
@@ -73,7 +75,6 @@ export default {
   },
   created() {
     this.readTasks()
-    console.log(1234)
   }
 }
 </script>
