@@ -9,6 +9,9 @@
 <script>
 import Header from './components/Header'
 import Tasks from './components/Tasks'
+import firebase from './firebaseConfig'
+
+const db = firebase.firestore();
 
 export default {
   name: 'App',
@@ -16,32 +19,46 @@ export default {
     Header,
     Tasks,
   },
+  methods: {
+    addTask(newText, newDay) {
+        db.collection("tasklistfirestore")
+          .add({ day: newDay, text: newText })
+          .then(() => {
+            console.log("Document successfully written!");
+          })
+          .catch((error) => {
+            console.error("Error writing document: ", error);
+          });
+    },
+    readTasks() {
+      this.tasks = [];
+      db.collection("tasklistfirestore")
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+           this.tasks.push({
+              id: doc.id,
+              text: doc.data().text,
+              day: doc.data().day,
+              reminder: doc.data().reminder,
+            });
+            console.log(doc.id, " => ", doc.data());
+          });
+          
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    }
+  },
   data() {
     return {
       tasks: []
     }
   },
   created() {
-    this.tasks = [
-        {
-          id: 1,
-          text: 'Easter',
-          day: 'April 2 2021',
-          reminder: true,
-        },
-        {
-          id: 2,
-          text: 'St. Patricks Day',
-          day: 'March 16 2021',
-          reminder: true,
-        },
-        {
-          id: 3,
-          text: 'New Years Day',
-          day: 'January 1 2022',
-          reminder: true,
-        }
-    ]
+    this.readTasks()
+    console.log(1234)
   }
 }
 </script>
