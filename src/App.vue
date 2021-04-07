@@ -1,7 +1,7 @@
 <template>
 <div class="max-w-lg m-7 overflow-auto min-h-full border-2 border-opacity-100 border-blue-300 p-8 rounded-md">
   <Header title="Task Tracker"/>
-  <Tasks :tasks="tasks"/>
+  <Tasks @delete-task="deleteTask" :tasks="tasks"/>
 </div>
 
 </template>
@@ -20,6 +20,21 @@ export default {
     Tasks,
   },
   methods: {
+    /*deleteTask(id){
+      console.log('task', id)
+    },*/
+    deleteTask(id) {
+      db.collection("tasklistfirestore")
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+          this.readTasks();
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+    },
     addTask(newText, newDay) {
         db.collection("tasklistfirestore")
           .add({ day: newDay, text: newText })
