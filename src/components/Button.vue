@@ -1,5 +1,5 @@
 <template>
-    <button :style="{background: color}" class="inline-block text-white border-none p-2.5 m-1.5 rounded-md cursor-pointer no-underline text-base font-mono">{{text}}</button>
+    <button @click="onClick()" :style="{background: color}" class="inline-block text-white border-none p-2.5 m-1.5 rounded-md cursor-pointer no-underline text-base font-mono">{{text}}</button>
 </template>
 
 <script>
@@ -8,6 +8,11 @@ export default {
     props: {
         text: String,
         color: String
+    },
+    methods: {
+        onClick() {
+            console.log('click')
+        }
     }
 }
 </script>
